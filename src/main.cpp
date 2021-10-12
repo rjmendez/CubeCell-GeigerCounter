@@ -10,9 +10,9 @@ ClimateGuard_RadSens1v2 radSens(RS_DEFAULT_I2C_ADDRESS);
 uint32_t sequence = 0;
 
 uint32_t prevPulses_0 = 0;
-uint32_t prevPulses_1 = 0;
-uint32_t prevPulses_2 = 0;
-uint32_t prevPulses_3 = 0;
+//uint32_t prevPulses_1 = 0;
+//uint32_t prevPulses_2 = 0;
+//uint32_t prevPulses_3 = 0;
 
 /*
  * set LoraWan_RGB to Active,the RGB active in loraWan
@@ -47,7 +47,7 @@ LoRaMacRegion_t loraWanRegion = ACTIVE_REGION;
 DeviceClass_t  loraWanClass = LORAWAN_CLASS;
 
 /*the application data transmission duty cycle.  value in [ms].*/
-uint32_t appTxDutyCycle = 15000;
+uint32_t appTxDutyCycle = 60000;
 
 /*OTAA or ABP*/
 bool overTheAirActivation = LORAWAN_NETMODE;
@@ -93,7 +93,11 @@ bool prepareTxFrame(uint8_t port)
   raddynamic   = radSens.getRadIntensyDyanmic(); 
   radstatic    = radSens.getRadIntensyStatic();
   pulses       = radSens.getNumberOfPulses();
-  
+
+cpm = (pulses - prevPulses_0);
+prevPulses_0 = pulses;
+
+  /*
   if (sequence == 0) {
     prevPulses_0 = pulses;
     cpm = (pulses - prevPulses_1);
@@ -117,7 +121,8 @@ bool prepareTxFrame(uint8_t port)
     cpm = (pulses - prevPulses_0);
     sequence = 0;
   }
-  
+  */
+
   //Print Values
   Serial.print("Number of pulses: ");
   Serial.println(pulses);
